@@ -1,0 +1,12 @@
+forms:
+https://www.playframework.com/documentation/3.0.x/ScalaForms
+
+anorm:
+http://www.zorched.net/2013/06/28/mapping-sql-joins-using-anorm/
+https://www.playframework.com/documentation/3.0.x/ScalaAnorm
+
+caelum forms:
+http://blog.caelum.com.br/comecando-um-projeto-no-play-framework-usando-java/
+
+internacionalizacao:
+https://www.playframework.com/documentation/3.0.x/ScalaI18N

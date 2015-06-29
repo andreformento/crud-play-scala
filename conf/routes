@@ -1,0 +1,14 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                         controllers.Application.index
+GET     /db_teste                                 controllers.Application.dbTest
+GET     /db_teste2                                controllers.Application.dbTest2
+GET     /show_user_by_id/:id                      controllers.UserController.showUserById(id: Long)
+POST    /show_user_by_id                          controllers.UserController.save
+GET     /show_user_by_role                        controllers.UserController.showUserByRole
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)
