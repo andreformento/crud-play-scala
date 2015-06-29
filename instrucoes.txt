@@ -10,3 +10,6 @@ http://blog.caelum.com.br/comecando-um-projeto-no-play-framework-usando-java/
 
 internacionalizacao:
 https://www.playframework.com/documentation/3.0.x/ScalaI18N
+
+
+http://localhost:9000/show_user_by_id/1
