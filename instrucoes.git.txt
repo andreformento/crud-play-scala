@@ -1,0 +1,6 @@
+git status
+git add .
+git commit -m "comment"
+git remote add origin https://github.com/andreformento/crud-play-scala.git
+git push -u origin master
+git pull origin
