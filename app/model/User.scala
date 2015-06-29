@@ -1,3 +1,3 @@
 package model
 
-case class User(id: Long, name: String, role: String)
+case class User(var id: Long, name: String, role: String)

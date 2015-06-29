@@ -7,16 +7,64 @@ import play.api.Play.current
 import play.api.db.DB
 
 
+// passar para slick
+// https://www.playframework.com/documentation/3.0.x/PlaySlick
+// https://www.playframework.com/documentation/3.0.x/PlaySlickMigrationGuide
 object UserDao {
-  // TODO implementar o insert no banco
-  def create(newUser: User):User = ???
 
+  def merge(newUser: User): User = {
+    if (newUser.id == 0)
+      newUser.id = insert(newUser).getOrElse(0)
+    else
+      update(newUser)
 
-  def rowMapper =  {
+    return newUser;
+  }
+
+  /**
+   * This method returns the value of the auto_increment field when the stock is inserted
+   * into the database table.
+   * http://alvinalexander.com/scala/play-framework-anorm-insert-method-returns-auto-insert-id
+   */
+  def insert(newUser: User): Option[Long] = {
+    val id: Option[Long] = DB.withConnection { implicit c =>
+      SQL("insert into user (user_name, role) values ({name}, {role})")
+        .on("name" -> newUser.name,
+          "role" -> newUser.role)
+        .executeInsert()
+    }
+    id
+  }
+
+  def update(newUser: User) = {
+    DB.withConnection { implicit c =>
+      SQL( """
+        update user set
+          user_name={name},
+          role={role}
+        where id={id}
+           """)
+        .on("name" -> newUser.name,
+          "role" -> newUser.role,
+          "id" -> newUser.id)
+        .execute()
+    }
+  }
+
+  def delete(id: Long): Int = {
+    DB.withConnection { implicit c =>
+      val nRowsDeleted = SQL("DELETE FROM user WHERE id = {id}")
+        .on('id -> id)
+        .executeUpdate()
+      nRowsDeleted
+    }
+  }
+
+  def rowMapper = {
     long("id") ~
-      str("user_name")~
+      str("user_name") ~
       str("role") map {
-      case id ~ name ~ role => User(id, name,role)
+      case id ~ name ~ role => User(id, name, role)
     }
   }
 
@@ -51,14 +99,14 @@ object UserDao {
 
   //case class User(id:Long, name: String, emails: List[String], phones: List[String])
   //object User {
-   /* def rowMapper = {
-      long("id") ~
-        str("user_name") ~
-        (str("email") ?) ~
-        (str("number") ?) map {
-        case id ~ name ~ email ~ number => ((id, name), email, number)
-      }
-    }*/
+  /* def rowMapper = {
+     long("id") ~
+       str("user_name") ~
+       (str("email") ?) ~
+       (str("number") ?) map {
+       case id ~ name ~ email ~ number => ((id, name), email, number)
+     }
+   }*/
   //}
 
 }

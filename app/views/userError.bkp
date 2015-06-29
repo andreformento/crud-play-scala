@@ -1,0 +1,14 @@
+@implicitFieldConstructor = @{ FieldConstructor(userError.render) }
+@(elements: helper.FieldElements)
+
+<!-- http://marcelo-olivas.blogspot.com.br/2013/02/using-forms-with-play-framework-2-and.html -->
+
+<div class="@if(elements.hasErrors) {alert alert-error}">
+        <label for="@elements.id">@elements.label</label>
+        <div class="input">
+            @elements.input
+            <span class="errors">@elements.errors.mkString(", ")</span>
+            <span class="help">@elements.infos.mkString(", ")</span>
+        </div>
+</div>
+

@@ -23,6 +23,9 @@ import play.api.data.Forms._
 
 //case class UserData(name: String, role:String)
 
+//http://marcelo-olivas.blogspot.com.br/2013/02/using-forms-with-play-framework-2-and.html
+//https://scalaplayschool.wordpress.com/2014/08/17/lesson-7-scala-play-forms-bootstrap/
+
 class UserController extends Controller {
 
   //val user = userForm.bindFromRequest.get
@@ -61,13 +64,13 @@ class UserController extends Controller {
         // TODO melhorar tela de erro
         // binding failure, you retrieve the form containing errors:
         //BadRequest(views.html.user(formWithErrors))
+        //BadRequest(views.html.userError(formWithErrors))
         BadRequest("erro")
       },
       user => {
         /* binding success, you get the actual value. */
         val newUser = model.User(user.id, user.name, user.role)
-        val userCreate = dao.UserDao.create(newUser)
-        //Redirect(routes.UserController.showUserById(userCreate.id))
+        val userCreate = dao.UserDao.merge(newUser)
         Redirect(routes.UserController.showUserById(userCreate.id))
       }
     )

@@ -1,9 +1,8 @@
 @(userForm: Form[model.User])(implicit messages: Messages)
 @import helper._
 
-
 @main("User view") {
-    @helper.form(routes.UserController.save()) {
+    @helper.form(action = routes.UserController.save()) {
         @helper.input(userForm("id")) { (id, name, value, args) =>
             <input type="hidden" name="@name" id="@id" value="@value" @toHtmlArgs(args) />
         }

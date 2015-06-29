@@ -6,8 +6,9 @@
 GET     /                                         controllers.Application.index
 GET     /db_teste                                 controllers.Application.dbTest
 GET     /db_teste2                                controllers.Application.dbTest2
-GET     /show_user_by_id/:id                      controllers.UserController.showUserById(id: Long)
-POST    /show_user_by_id                          controllers.UserController.save
+GET     /user/edit/:id                            controllers.UserController.showUserById(id: Long)
+POST    /user/save                                controllers.UserController.save
+POST    /user/error                               controllers.UserController.save
 GET     /show_user_by_role                        controllers.UserController.showUserByRole
 
 # Map static resources from the /public folder to the /assets URL path
