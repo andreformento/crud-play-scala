@@ -8,6 +8,8 @@ git pull origin
 # remove folder
 git rm -r -f .sbtserver/
 git rm --cached -r .sbtserver/
+git rm -r -f .idea/libraries/
+git rm --cached -r .idea/libraries/
 
 # remove file
 git rm RUNNING_PID
