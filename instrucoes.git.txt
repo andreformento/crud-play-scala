@@ -4,3 +4,10 @@ git commit -m "comment"
 git remote add origin https://github.com/andreformento/crud-play-scala.git
 git push -u origin master
 git pull origin
+
+# remove folder
+git rm -r -f .sbtserver/
+git rm --cached -r .sbtserver/
+
+# remove file
+git rm RUNNING_PID
