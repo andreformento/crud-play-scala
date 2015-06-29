@@ -11,3 +11,6 @@ git rm --cached -r .sbtserver/
 
 # remove file
 git rm RUNNING_PID
+
+# clone
+git clone https://github.com/andreformento/crud-play-scala.git
