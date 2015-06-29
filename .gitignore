@@ -4,6 +4,7 @@ bin/
 .eclipse
 /lib/
 /.sbtserver/
+.idea/libraries/
 /logs/
 /modules
 /project/project
