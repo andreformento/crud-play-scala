@@ -17,7 +17,11 @@ import anorm._
 class Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index("4"))
+    Ok(views.html.index())
+  }
+
+  def index2 = Action {
+    Ok(views.html.index2("4"))
   }
 
   def dbTest = Action {
