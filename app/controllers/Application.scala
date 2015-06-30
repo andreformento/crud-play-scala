@@ -10,13 +10,20 @@ import play.api.Play.current
 import play.api.mvc._
 import play.api.db._
 import anorm.{SQL, SqlParser}
-//import anorm.SqlParser.{ int, str, to,long }
+
 import anorm.SqlParser._
 import anorm._
+import play.api.i18n.{Messages, MessagesApi, I18nSupport}
 
-class Application extends Controller {
+import javax.inject.Inject
+
+
+class Application @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   def index = Action {
+
+    Messages("index.welcome")
+
     Ok(views.html.index())
   }
 
@@ -53,7 +60,6 @@ class Application extends Controller {
     }
     Ok(outString)
   }
-
 
 }
 

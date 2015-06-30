@@ -1,0 +1,13 @@
+index.welcome=Bem vindo (pt-BR)
+index.title=CRUD app
+
+menu.home=Início
+menu.news=Notícias
+menu.register=Cadastro
+menu.new=Novo
+menu.list=Lista
+menu.item.user=Usuário
+menu.search=Pesquisar
+menu.user.account=Conta
+menu.user.admin=Administrador
+menu.user.logout=Sair

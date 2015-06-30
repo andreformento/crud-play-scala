@@ -123,6 +123,14 @@ class UserController extends Controller {
     Ok(views.html.userSingleView(userForm.bind(userData)))
   }
 
+  def newUser = Action {
+    val user = User(0,"","");
+
+    val userData = Map("id" -> user.id.toString, "name" -> user.name, "role" -> user.role)
+
+    Ok(views.html.userSingleView(userForm.bind(userData)))
+  }
+
   def showUserByRole = Action {
     var outString = "User: "
 

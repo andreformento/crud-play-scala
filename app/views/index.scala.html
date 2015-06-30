@@ -1,6 +1,7 @@
+@import play.i18n._
 <!-- colocar o usuario -->
 
-@menu("Bem vindo2") {
-abc
+@body(Messages.get("index.title")) {
+    @Messages.get("index.welcome")
 
 }

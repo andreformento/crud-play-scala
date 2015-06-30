@@ -9,6 +9,7 @@ GET     /index2                                   controllers.Application.index2
 GET     /db_teste                                 controllers.Application.dbTest
 GET     /db_teste2                                controllers.Application.dbTest2
 GET     /user/edit/:id                            controllers.UserController.showUserById(id: Long)
+GET     /user/new                                 controllers.UserController.newUser
 POST    /user/save                                controllers.UserController.save
 POST    /user/error                               controllers.UserController.save
 GET     /show_user_by_role                        controllers.UserController.showUserByRole

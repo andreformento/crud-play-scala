@@ -13,3 +13,11 @@ https://www.playframework.com/documentation/3.0.x/ScalaI18N
 
 
 http://localhost:9000/show_user_by_id/1
+
+internacionalization:
+www.playframework.com/documentation/3.0.x/ScalaI18N
+stackoverflow.com/questions/10341196/apply-html-formatting-to-i18n-messages
+stackoverflow.com/questions/30799988/play-2-4-form-could-not-find-implicit-value-for-parameter-messages-play-api-i
+http://stackoverflow.com/questions/30810622/implicit-parameters-and-combined-views-in-play-scala
+change location
+http://stackoverflow.com/questions/29803189/i18n-in-play-framework-2-4-0
