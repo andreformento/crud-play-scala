@@ -1,0 +1,27 @@
+@(userForm: Form[model.User])(implicit messages: Messages)
+@import helper._
+@import play.i18n._
+
+@body("User view") {
+    @helper.form(routes.UserController.save()) {
+        @helper.input(userForm("id")) { (id, name, value, args) =>
+            <input type="hidden" name="@name" id="@id" value="@value" @toHtmlArgs(args) />
+        }
+
+        @helper.inputText(userForm("name"),
+            '_label -> Messages.get("form.user.name"),
+            'id -> "name",
+            'class -> "ui-state-default",
+            '_showConstraints -> false
+        )
+
+        @helper.inputText(userForm("role"),
+            '_label -> Messages.get("form.user.role"),
+            'id -> "role",
+            'class -> "ui-state-default",
+            '_showConstraints -> false
+        )
+
+        <input type="submit" value='@Messages.get("form.save")' />
+    }
+}

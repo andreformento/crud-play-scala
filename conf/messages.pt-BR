@@ -11,3 +11,7 @@ menu.search=Pesquisar
 menu.user.account=Conta
 menu.user.admin=Administrador
 menu.user.logout=Sair
+
+form.save=Salvar
+form.user.name=Usuário
+form.user.role=Permissão

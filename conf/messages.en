@@ -3,7 +3,7 @@ index.title=CRUD app
 
 menu.home=Home
 menu.news=News
-menu.register=register
+menu.register=Register
 menu.new=New
 menu.list=List
 menu.item.user=User
@@ -11,3 +11,7 @@ menu.search=Search
 menu.user.account=Account
 menu.user.admin=Administrator
 menu.user.logout=Logout
+
+form.save=Save
+form.user.name=User
+form.user.role=Role

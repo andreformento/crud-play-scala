@@ -33,8 +33,8 @@ class UserController extends Controller {
   val userForm = Form(
     mapping(
       "id" -> longNumber(min = 0),
-      "name" -> text(minLength = 2,maxLength = 100),
-      "role" -> text(minLength = 2,maxLength = 10)
+      "name" -> text(minLength = 2, maxLength = 100),
+      "role" -> text(minLength = 2, maxLength = 10)
     )(User.apply)(User.unapply)
   )
 
@@ -54,7 +54,6 @@ class UserController extends Controller {
       Redirect(routes.UserController.showUserById(userCreate.id))
     }
   )*/
-
 
 
   def save = Action { implicit request =>
@@ -85,7 +84,7 @@ class UserController extends Controller {
     )(User.apply)(User.unapply)
   )
 
-  def validate(id : Long, name: String, role:String) = {
+  def validate(id: Long, name: String, role: String) = {
     name match {
       case "root" if role == "DBA" =>
         Some(User(id, name, role))
@@ -102,7 +101,7 @@ class UserController extends Controller {
       "name" -> text,
       "role" -> text
     )(User.apply)(User.unapply) verifying("Failed form constraints!", fields => fields match {
-      case user => validate(user.id,user.name, user.role).isDefined
+      case user => validate(user.id, user.name, user.role).isDefined
     })
   )
 
@@ -116,19 +115,34 @@ class UserController extends Controller {
   }*/
 
   def showUserById(id: Long) = Action {
-    val user = UserDao.getById(id).getOrElse(User(0,"",""));
+    val userBanco = UserDao.getById(id);
+
+    /*
+    val result = userBanco match {
+      //case Some(u) => Ok(views.html.userEdit(userForm.bind(Map("id" -> u.id.toString, "name" -> u.name, "role" -> u.role))))
+      case Some(u) => {
+        val userData1 = Map("id" -> u.id.toString, "name" -> u.name, "role" -> u.role)
+        Ok(userForm.bind(userData1))
+      }
+      case _ => newUser()
+    }*/
+
+    /*
+        return result;*/
+
+    val user = userBanco.getOrElse(User(0, "", ""));
 
     val userData = Map("id" -> user.id.toString, "name" -> user.name, "role" -> user.role)
 
-    Ok(views.html.userSingleView(userForm.bind(userData)))
+    Ok(views.html.userEdit(userForm.bind(userData)))
   }
 
   def newUser = Action {
-    val user = User(0,"","");
+    val user = User(0, "", "");
 
     val userData = Map("id" -> user.id.toString, "name" -> user.name, "role" -> user.role)
 
-    Ok(views.html.userSingleView(userForm.bind(userData)))
+    Ok(views.html.userEdit(userForm.bind(userData)))
   }
 
   def showUserByRole = Action {
