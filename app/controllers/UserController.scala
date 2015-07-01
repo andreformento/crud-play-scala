@@ -145,6 +145,21 @@ class UserController extends Controller {
     Ok(views.html.userEdit(userForm.bind(userData)))
   }
 
+  // http://kev009.com/wp/2012/12/reusable-pagination-in-play-2/
+  def userList(page: Int) = Action {
+    // TODO pegar da view
+    val pageLength = 5
+    val count = UserDao.getCount
+
+    val offset = (page - 1) * pageLength
+    val rowCount = pageLength
+    val userByPagination = UserDao.getByPagination(offset, rowCount)
+
+    Ok(views.html.userList(userByPagination, count, page, pageLength))
+  }
+
+
+
   def showUserByRole = Action {
     var outString = "User: "
 

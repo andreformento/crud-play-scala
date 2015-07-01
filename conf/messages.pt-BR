@@ -13,5 +13,8 @@ menu.user.admin=Administrador
 menu.user.logout=Sair
 
 form.save=Salvar
+form.id=Código
+form.user.edit.title=Cadastro de usuário
+form.user.list.title=Lista de usuários
 form.user.name=Usuário
 form.user.role=Permissão

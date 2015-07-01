@@ -96,6 +96,32 @@ object UserDao {
     }
   }
 
+  def getByPagination(offset:Int, rowCount:Int) = {
+    DB.withConnection {
+      implicit conn =>
+        SQL(
+          """
+            SELECT id, user_name,role
+              FROM user
+            order by user_name
+             limit {offset}, {rowCount}
+          """.stripMargin)
+          .on("offset" -> offset,
+              "rowCount" -> rowCount)
+          .as(UserDao.rowMapper *)
+    }
+  }
+
+  def getCount: Int = {
+    val result: Int =
+      DB.withConnection { implicit c =>
+        SQL("Select count(1) as c from User")
+          .as(scalar[Int].single)
+    }
+
+    result
+  }
+
 
   //case class User(id:Long, name: String, emails: List[String], phones: List[String])
   //object User {

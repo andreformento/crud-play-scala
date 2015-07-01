@@ -13,5 +13,8 @@ menu.user.admin=Administrator
 menu.user.logout=Logout
 
 form.save=Save
+form.id=Id
+form.user.edit.title=User register
+form.user.list.title=Users list
 form.user.name=User
 form.user.role=Role

@@ -27,10 +27,6 @@ class Application @Inject()(val messagesApi: MessagesApi) extends Controller wit
     Ok(views.html.index())
   }
 
-  def index2 = Action {
-    Ok(views.html.index2("4"))
-  }
-
   def dbTest = Action {
     var outString = "Number is "
     val conn = DB.getConnection()

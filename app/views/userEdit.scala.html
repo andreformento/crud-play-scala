@@ -2,18 +2,18 @@
 @import helper._
 @import play.i18n._
 
-@body("User view") {
+@body(Messages.get("form.user.edit.title")) {
     @helper.form(routes.UserController.save()) {
         @helper.input(userForm("id")) { (id, name, value, args) =>
             <input type="hidden" name="@name" id="@id" value="@value" @toHtmlArgs(args) />
         }
 
-        @helper.inputText(userForm("name"),
-            '_label -> Messages.get("form.user.name"),
-            'id -> "name",
-            'class -> "ui-state-default",
-            '_showConstraints -> false
-        )
+        <div class="form-group">
+            @helper.input(userForm("name")) { (id, name, value, args) =>
+                <label for="@id">@Messages.get("form.user.name")</label>
+                <input type="text" class="form-control" id="@id" value="@value" placeholder='@Messages.get("form.user.name")'>
+            }
+        </div>
 
         @helper.inputText(userForm("role"),
             '_label -> Messages.get("form.user.role"),
@@ -22,6 +22,7 @@
             '_showConstraints -> false
         )
 
-        <input type="submit" value='@Messages.get("form.save")' />
+        <a class="btn btn-default" href="@routes.UserController.userList(1)" role="button">@Messages.get("menu.list")</a>
+        <input type="submit" class="btn btn-primary" value='@Messages.get("form.save")' />
     }
 }
