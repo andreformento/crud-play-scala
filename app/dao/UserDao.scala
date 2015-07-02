@@ -115,7 +115,7 @@ object UserDao {
   def getCount: Int = {
     val result: Int =
       DB.withConnection { implicit c =>
-        SQL("Select count(1) as c from User")
+        SQL("Select count(1) as c from user")
           .as(scalar[Int].single)
     }
 
