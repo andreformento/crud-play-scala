@@ -1,7 +1,7 @@
 package controllers
 
-import dao.UserDao
-import model.User
+import dao.AircraftDao
+import model.Aircraft
 import play.api._
 import play.api.mvc._
 

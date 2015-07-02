@@ -1,0 +1,30 @@
+@(aircraftForm: Form[model.Aircraft])(implicit messages: Messages)
+@import helper._
+@import play.i18n._
+
+@implicitField = @{ helper.FieldConstructor(myFieldConstructorTemplate.f) }
+
+@body(Messages.get("form.aircraft.edit.title")) {
+    @helper.form(routes.AircraftController.save()) {
+        <fieldset>
+            <legend>@Messages.get("menu.register")</legend>
+
+            @helper.input(aircraftForm("id")) { (id, name, value, args) =>
+                <input type="hidden" name="@name" id="@id" value="@value" @toHtmlArgs(args) />
+            }
+
+            @helper.inputText(aircraftForm("description"),
+                '_label -> Messages.get("form.aircraft.description"),
+                '_class -> "span4",
+                'placeholder -> Messages.get("form.aircraft.description"))
+
+            @helper.inputText(aircraftForm("initials"),
+                '_label -> Messages.get("form.aircraft.initials"),
+                '_class -> "span4",
+                'placeholder -> Messages.get("form.aircraft.initials"))
+
+            <a class="btn btn-default" href="@routes.AircraftController.aircraftList(1)" role="button">@Messages.get("menu.list")</a>
+            <input type="submit" class="btn btn-primary" value='@Messages.get("form.save")' />
+        </fieldset>
+    }
+}

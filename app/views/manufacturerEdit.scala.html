@@ -1,0 +1,30 @@
+@(manufacturerForm: Form[model.Manufacturer])(implicit messages: Messages)
+@import helper._
+@import play.i18n._
+
+@implicitField = @{ helper.FieldConstructor(myFieldConstructorTemplate.f) }
+
+@body(Messages.get("form.manufacturer.edit.title")) {
+    @helper.form(routes.ManufacturerController.save()) {
+        <fieldset>
+            <legend>@Messages.get("menu.register")</legend>
+
+            @helper.input(manufacturerForm("id")) { (id, name, value, args) =>
+                <input type="hidden" name="@name" id="@id" value="@value" @toHtmlArgs(args) />
+            }
+
+            @helper.inputText(manufacturerForm("description"),
+                '_label -> Messages.get("form.manufacturer.description"),
+                '_class -> "span4",
+                'placeholder -> Messages.get("form.manufacturer.description"))
+
+            @helper.inputText(manufacturerForm("link"),
+                '_label -> Messages.get("form.manufacturer.link"),
+                '_class -> "span4",
+                'placeholder -> Messages.get("form.manufacturer.link"))
+
+            <a class="btn btn-default" href="@routes.ManufacturerController.manufacturerList(1)" role="button">@Messages.get("menu.list")</a>
+            <input type="submit" class="btn btn-primary" value='@Messages.get("form.save")' />
+        </fieldset>
+    }
+}

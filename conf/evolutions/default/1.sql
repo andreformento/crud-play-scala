@@ -1,15 +1,15 @@
-# add user
+# add aircraft
 
 # --- !Ups
 
-CREATE TABLE `user` (
+CREATE TABLE `aircraft` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `user_name` VARCHAR(100) NOT NULL,
-    `role` VARCHAR(100) NOT NULL,
+    `description` VARCHAR(100) NOT NULL,
+    `initials` VARCHAR(40) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 # --- !Downs
 
-DROP TABLE `user`;
+DROP TABLE `aircraft`;
 

@@ -8,13 +8,19 @@ GET     /index                                    controllers.Application.index
 GET     /db_teste                                 controllers.Application.dbTest
 GET     /db_teste2                                controllers.Application.dbTest2
 
-GET     /user/edit/:id                            controllers.UserController.edit(id: Long)
-GET     /user/new                                 controllers.UserController.newUser
-GET     /user/list                                controllers.UserController.userList(page:Int=1)
-GET     /user/list/:page                          controllers.UserController.userList(page:Int)
-POST    /user/save                                controllers.UserController.save
-POST    /user/error                               controllers.UserController.save
-GET     /show_user_by_role                        controllers.UserController.showUserByRole
+GET     /aircraft/edit/:id                        controllers.AircraftController.edit(id: Long)
+GET     /aircraft/new                             controllers.AircraftController.newAircraft
+GET     /aircraft/list                            controllers.AircraftController.aircraftList(page:Int=1)
+GET     /aircraft/list/:page                      controllers.AircraftController.aircraftList(page:Int)
+POST    /aircraft/save                            controllers.AircraftController.save
+POST    /aircraft/error                           controllers.AircraftController.save
+GET     /show_aircraft_by_role                    controllers.AircraftController.showAircraftByInitials
+
+GET     /manufacturer/edit/:id                    controllers.ManufacturerController.edit(id: Long)
+GET     /manufacturer/new                         controllers.ManufacturerController.newRegister
+GET     /manufacturer/list                        controllers.ManufacturerController.list(page:Int=1)
+GET     /manufacturer/list/:page                  controllers.ManufacturerController.list(page:Int)
+POST    /manufacturer/save                        controllers.ManufacturerController.save
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)

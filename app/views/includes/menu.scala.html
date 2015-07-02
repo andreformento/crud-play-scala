@@ -22,10 +22,18 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Messages.get("menu.register") <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li class="menu-item dropdown dropdown-submenu">
-                            <a href="#">@Messages.get("menu.item.user")</a>
+                            <a href="#">@Messages.get("menu.item.aircraft")</a>
                             <ul class="dropdown-menu">
-                                <li><a href="@routes.UserController.newUser()">@Messages.get("menu.new")</a></li>
-                                <li><a href="@routes.UserController.userList(1)">@Messages.get("menu.list")</a></li>
+                                <li><a href="@routes.AircraftController.newAircraft()">@Messages.get("menu.create")</a></li>
+                                <li><a href="@routes.AircraftController.aircraftList(1)">@Messages.get("menu.list")</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#">@Messages.get("menu.item.manufacturer")</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@routes.ManufacturerController.newRegister()">@Messages.get("menu.create")</a></li>
+                                <li><a href="@routes.ManufacturerController.list(1)">@Messages.get("menu.list")</a></li>
                             </ul>
                         </li>
 
