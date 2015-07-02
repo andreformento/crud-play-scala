@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/views/myFieldConstructorTemplate.scala.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/views/userEdit.scala.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/views/userList.scala.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/messages.en" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/conf/messages.pt-BR" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/instrucoes.txt" charset="UTF-8" />
   </component>
 </project>

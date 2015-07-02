@@ -22,7 +22,7 @@
             <tbody>
                 @for(u <- users) {
                     <tr>
-                        <td><a href="@routes.UserController.showUserById(u.id)">@u.id</a></td>
+                        <td><a href="@routes.UserController.edit(u.id)">@u.id</a></td>
                         <td>@u.name</td>
                         <td>@u.role</td>
                     </tr>

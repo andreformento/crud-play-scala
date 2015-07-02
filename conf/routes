@@ -8,7 +8,7 @@ GET     /index                                    controllers.Application.index
 GET     /db_teste                                 controllers.Application.dbTest
 GET     /db_teste2                                controllers.Application.dbTest2
 
-GET     /user/edit/:id                            controllers.UserController.showUserById(id: Long)
+GET     /user/edit/:id                            controllers.UserController.edit(id: Long)
 GET     /user/new                                 controllers.UserController.newUser
 GET     /user/list                                controllers.UserController.userList(page:Int=1)
 GET     /user/list/:page                          controllers.UserController.userList(page:Int)

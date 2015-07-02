@@ -5,6 +5,7 @@ import play.api._
 import play.api.mvc._
 
 import play.api.i18n.Messages.Implicits._
+import play.api.i18n.Messages
 
 import play.api.Play.current
 import play.api.mvc._
@@ -50,27 +51,33 @@ class UserController extends Controller {
       /* binding success, you get the actual value. */
       val newUser = model.User(user.id, user.name, user.role)
       val userCreate = dao.UserDao.create(newUser)
-      //Redirect(routes.UserController.showUserById(userCreate.id))
-      Redirect(routes.UserController.showUserById(userCreate.id))
+      //Redirect(routes.UserController.edit(userCreate.id))
+      Redirect(routes.UserController.edit(userCreate.id))
     }
   )*/
 
 
   def save = Action { implicit request =>
-    println("aaa")
     userForm.bindFromRequest.fold(
       formWithErrors => {
         // TODO melhorar tela de erro
         // binding failure, you retrieve the form containing errors:
         //BadRequest(views.html.user(formWithErrors))
-        //BadRequest(views.html.userError(formWithErrors))
-        BadRequest("erro")
+
+        /*Redirect(routes.UserController.newUser()).flashing(Flash(formWithErrors.data) +
+          ("error" -> Messages("form.validation.error")))*/
+
+        BadRequest(views.html.userEdit(formWithErrors))
+
+        //BadRequest(routes.UserController.edit(formWithErrors))
+        //BadRequest("erro: "+formWithErrors.globalError)
+        //BadRequest(views.html.index(formWithErrors))
       },
       user => {
         /* binding success, you get the actual value. */
         val newUser = model.User(user.id, user.name, user.role)
         val userCreate = dao.UserDao.merge(newUser)
-        Redirect(routes.UserController.showUserById(userCreate.id))
+        Redirect(routes.UserController.edit(userCreate.id))
       }
     )
   }
@@ -111,10 +118,10 @@ class UserController extends Controller {
     val newUser = model.User(user.id, user.name, user.role)
     val userCreate = UserDao.create(newUser)
     //Redirect(routes.Application.home(id))
-    Redirect(routes.UserController.showUserById(userCreate.id))
+    Redirect(routes.UserController.edit(userCreate.id))
   }*/
 
-  def showUserById(id: Long) = Action {
+  def edit(id: Long) = Action {
     val userBanco = UserDao.getById(id);
 
     /*
