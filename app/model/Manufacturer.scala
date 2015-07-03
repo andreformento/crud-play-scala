@@ -1,5 +1,5 @@
 package model
 
-import org.joda.time.DateTime
+import java.util.Date
 
-case class Manufacturer(var id: Long, description: String, link: String, expiryDate: DateTime)
+case class Manufacturer(var id: Long, description: String, link: Option[String], expiryDate: Option[Date])

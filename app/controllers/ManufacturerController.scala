@@ -8,20 +8,14 @@ import play.api.data._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Controller, _}
 
-//case class ManufacturerData(description: String, initials:String)
-
-//http://marcelo-olivas.blogspot.com.br/2013/02/using-forms-with-play-framework-2-and.html
-//https://scalaplayschool.wordpress.com/2014/08/17/lesson-7-scala-play-forms-bootstrap/
-
 class ManufacturerController extends Controller {
-
-  //val manufacturer = manufacturerForm.bindFromRequest.get
 
   val manufacturerForm = Form(
     mapping(
       "id" -> longNumber(min = 0),
       "description" -> text(minLength = 2, maxLength = 100),
-      "initials" -> text(minLength = 2, maxLength = 40)
+      "link" -> text(maxLength = 100),
+      "expiryDate" -> date
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
@@ -35,7 +29,7 @@ class ManufacturerController extends Controller {
     },
     manufacturer => {
       /* binding success, you get the actual value. */
-      val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.initials)
+      val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
       val manufacturerCreate = dao.ManufacturerDao.create(newManufacturer)
       //Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
       Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
@@ -61,7 +55,7 @@ class ManufacturerController extends Controller {
       },
       manufacturer => {
         /* binding success, you get the actual value. */
-        val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.initials)
+        val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
         val manufacturerCreate = dao.ManufacturerDao.merge(newManufacturer)
         Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
       }
@@ -73,16 +67,16 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber,
       "description" -> nonEmptyText,
-      "initials" -> nonEmptyText
+      "link" -> nonEmptyText
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
-  def validate(id: Long, description: String, initials: String) = {
+  def validate(id: Long, description: String, link: String) = {
     description match {
-      case "root" if initials == "DBA" =>
-        Some(Manufacturer(id, description, initials))
+      case "root" if link == "DBA" =>
+        Some(Manufacturer(id, description, link))
       case "admin" =>
-        Some(Manufacturer(id, description, initials))
+        Some(Manufacturer(id, description, link))
       case _ =>
         None
     }
@@ -92,16 +86,16 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber,
       "description" -> text,
-      "initials" -> text
+      "link" -> text
     )(Manufacturer.apply)(Manufacturer.unapply) verifying("Failed form constraints!", fields => fields match {
-      case manufacturer => validate(manufacturer.id, manufacturer.description, manufacturer.initials).isDefined
+      case manufacturer => validate(manufacturer.id, manufacturer.description, manufacturer.link).isDefined
     })
   )
 
   /*
   val manufacturerPost = Action(parse.form(manufacturerForm)) { implicit request =>
     val manufacturer = request.body
-    val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.initials)
+    val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
     val manufacturerCreate = ManufacturerDao.create(newManufacturer)
     //Redirect(routes.Application.home(id))
     Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
@@ -112,9 +106,9 @@ class ManufacturerController extends Controller {
 
     /*
     val result = manufacturerBanco match {
-      //case Some(u) => Ok(views.html.manufacturerEdit(manufacturerForm.bind(Map("id" -> u.id.toString, "description" -> u.description, "initials" -> u.initials))))
+      //case Some(u) => Ok(views.html.manufacturerEdit(manufacturerForm.bind(Map("id" -> u.id.toString, "description" -> u.description, "link" -> u.link))))
       case Some(u) => {
-        val manufacturerData1 = Map("id" -> u.id.toString, "description" -> u.description, "initials" -> u.initials)
+        val manufacturerData1 = Map("id" -> u.id.toString, "description" -> u.description, "link" -> u.link)
         Ok(manufacturerForm.bind(manufacturerData1))
       }
       case _ => newManufacturer()
@@ -125,7 +119,7 @@ class ManufacturerController extends Controller {
 
     val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", ""));
 
-    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "initials" -> manufacturer.initials)
+    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }
@@ -133,7 +127,7 @@ class ManufacturerController extends Controller {
   def newManufacturer = Action {
     val manufacturer = Manufacturer(0, "", "");
 
-    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "initials" -> manufacturer.initials)
+    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }

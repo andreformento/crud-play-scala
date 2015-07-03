@@ -6,10 +6,6 @@ import model.Manufacturer
 import play.api.Play.current
 import play.api.db.DB
 
-
-// passar para slick
-// https://www.playframework.com/documentation/3.0.x/PlaySlick
-// https://www.playframework.com/documentation/3.0.x/PlaySlickMigrationGuide
 object ManufacturerDao {
 
   def merge(newRegister: Manufacturer): Manufacturer = {
@@ -21,17 +17,12 @@ object ManufacturerDao {
     return newRegister;
   }
 
-  /**
-   * This method returns the value of the auto_increment field when the stock is inserted
-   * into the database table.
-   * http://alvinalexander.com/scala/play-framework-anorm-insert-method-returns-auto-insert-id
-   */
   def insert(newRegister: Manufacturer): Option[Long] = {
     val id: Option[Long] = DB.withConnection { implicit c =>
-      SQL("insert into aircraft (description, initials) values ({description}, {expiryDate}, {link})")
+      SQL("insert into manufacturer (description, link, expiry_date) values ({description}, {link}, {expiryDate})")
         .on("description" -> newRegister.description,
-     //     "expiryDate" -> newRegister.expiryDate,
-          "link" -> newRegister.link)
+          "link" -> newRegister.link,
+          "expiryDate" -> newRegister.expiryDate)
         .executeInsert()
     }
     id
@@ -42,11 +33,13 @@ object ManufacturerDao {
       SQL( """
         update manufacturer set
           description={description},
-          link={link}
+          link={link},
+          expiry_date={expiryDate}
         where id={id}
            """)
         .on("description" -> updateRegister.description,
           "link" -> updateRegister.link,
+          "expiryDate" -> updateRegister.expiryDate,
           "id" -> updateRegister.id)
         .execute()
     }
@@ -64,8 +57,9 @@ object ManufacturerDao {
   def rowMapper = {
     long("id") ~
       str("description") ~
-      str("link") map {
-      case id ~ description ~ link => Manufacturer(id, description, link)
+      str("link") ~
+      date("expiry_date") map {
+      case id ~ description ~ link ~ expiryDate => Manufacturer(id, description, link, expiryDate)
     }
   }
 
@@ -74,9 +68,9 @@ object ManufacturerDao {
       implicit conn =>
         SQL(
           """
-            SELECT id, description,link
+            SELECT id, description, link, expiry_date
               FROM manufacturer
-             WHERE manufacturer.id = {id}
+             WHERE manufacturer.0id = {id}
           """.stripMargin)
           .on("id" -> id)
           .as(ManufacturerDao.rowMapper singleOpt)
@@ -88,7 +82,7 @@ object ManufacturerDao {
       implicit conn =>
         SQL(
           """
-            SELECT id, description, link
+            SELECT id, description, link, expiry_date
               FROM manufacturer
              WHERE manufacturer.link = {link}
           """.stripMargin)
@@ -97,18 +91,18 @@ object ManufacturerDao {
     }
   }
 
-  def getByPagination(offset:Int, rowCount:Int) = {
+  def getByPagination(offset: Int, rowCount: Int) = {
     DB.withConnection {
       implicit conn =>
         SQL(
           """
-            SELECT id, description, link
+            SELECT id, description, link, expiry_date
               FROM manufacturer
             order by description
              limit {offset}, {rowCount}
           """.stripMargin)
           .on("offset" -> offset,
-              "rowCount" -> rowCount)
+            "rowCount" -> rowCount)
           .as(ManufacturerDao.rowMapper *)
     }
   }
@@ -118,22 +112,9 @@ object ManufacturerDao {
       DB.withConnection { implicit c =>
         SQL("Select count(1) as c from manufacturer")
           .as(scalar[Int].single)
-    }
+      }
 
     result
   }
-
-
-  //case class Manufacturer(id:Long, name: String, emails: List[String], phones: List[String])
-  //object Manufacturer {
-  /* def rowMapper = {
-     long("id") ~
-       str("description") ~
-       (str("email") ?) ~
-       (str("number") ?) map {
-       case id ~ name ~ email ~ number => ((id, name), email, number)
-     }
-   }*/
-  //}
 
 }
