@@ -14,8 +14,8 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber(min = 0),
       "description" -> text(minLength = 2, maxLength = 100),
-      "link" -> text(maxLength = 100),
-      "expiryDate" -> date
+      "link" -> optional(text(maxLength = 100)),
+      "expiryDate" -> optional(date)
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 

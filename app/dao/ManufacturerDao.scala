@@ -57,8 +57,8 @@ object ManufacturerDao {
   def rowMapper = {
     long("id") ~
       str("description") ~
-      str("link") ~
-      date("expiry_date") map {
+      str("link").singleOpt ~
+      date("expiry_date").singleOpt map {
       case id ~ description ~ link ~ expiryDate => Manufacturer(id, description, link, expiryDate)
     }
   }
