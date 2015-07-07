@@ -19,3 +19,9 @@ form.aircraft.edit.title=Cadastro de aeronave
 form.aircraft.list.title=Lista de aeronaves
 form.aircraft.description=Aeronave
 form.aircraft.initials=Sigla
+
+form.manufacturer.edit.title=Cadastro de aeronave
+form.manufacturer.list.title=Lista de aeronaves
+form.manufacturer.description=Aeronave
+form.manufacturer.link=Link
+form.manufacturer.expiryDate=Data de expiração

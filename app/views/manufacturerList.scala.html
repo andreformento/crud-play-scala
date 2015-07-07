@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div>
             <h2>@Messages.get("form.manufacturer.list.title")</h2>
-            <a class="btn btn-default" href="@routes.ManufacturerController.newManufacturer()" role="button">@Messages.get("menu.create")</a>
+            <a class="btn btn-default" href="@routes.ManufacturerController.newRegister()" role="button">@Messages.get("menu.create")</a>
         </div>
         <!--<p>descricao...</p>-->
         <table class="table table-hover table-striped">
@@ -22,7 +22,7 @@
             <tbody>
                 @for(reg <- manufacturers) {
                     <tr>
-                        <td><a href="@routes.ManufacturerController.edit(u.id)">@reg.id</a></td>
+                        <td><a href="@routes.ManufacturerController.edit(reg.id)">@reg.id</a></td>
                         <td>@reg.description</td>
                         <td>@reg.link</td>
                     </tr>
@@ -30,7 +30,7 @@
             </tbody>
         </table>
 
-        @includes.paginate(page, pageLength, count, routes.ManufacturerController.manufacturerList(_))
+        @includes.paginate(page, pageLength, count, routes.ManufacturerController.list(_))
 
 
     </div>

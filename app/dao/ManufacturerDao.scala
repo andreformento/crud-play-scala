@@ -6,6 +6,8 @@ import model.Manufacturer
 import play.api.Play.current
 import play.api.db.DB
 
+
+
 object ManufacturerDao {
 
   def merge(newRegister: Manufacturer): Manufacturer = {
@@ -54,14 +56,31 @@ object ManufacturerDao {
     }
   }
 
+  /*
+SQL("Select name,indepYear from Country")().map { row =>
+  row[String]("name") ->
+  row[Option[Int]]("indepYear")
+}
+  * */
+
   def rowMapper = {
     long("id") ~
       str("description") ~
-      str("link").singleOpt ~
-      date("expiry_date").singleOpt map {
+      str("link") ~
+      date("expiry_date") map {
       case id ~ description ~ link ~ expiryDate => Manufacturer(id, description, link, expiryDate)
     }
   }
+
+  /*
+  def rowMapper = {
+    long("id") ~
+      str("description") ~
+      str("link") ~
+      date("expiry_date") map {
+      case id ~ description ~ link ~ expiryDate => Manufacturer(id, description, link, expiryDate)
+    }
+  }*/
 
   def getById(id: Long): Option[Manufacturer] = {
     DB.withConnection {

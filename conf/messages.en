@@ -7,6 +7,7 @@ menu.register=Register
 menu.create=Create
 menu.list=List
 menu.item.aircraft=Aircraft
+menu.item.manufacturer=Manufacturer
 menu.search=Search
 menu.user.account=Account
 menu.user.admin=Administrator
@@ -19,3 +20,9 @@ form.aircraft.edit.title=Aircraft register
 form.aircraft.list.title=Aircrafts list
 form.aircraft.description=Aircraft
 form.aircraft.initials=Initials
+
+form.manufacturer.edit.title=Manufacturer register
+form.manufacturer.list.title=Manufacturer list
+form.manufacturer.description=Manufacturer
+form.manufacturer.link=Link
+form.manufacturer.expiryDate=Expiry date

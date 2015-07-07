@@ -8,14 +8,26 @@ import play.api.data._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Controller, _}
 
+import java.util.Date
+
 class ManufacturerController extends Controller {
 
+  /*
   val manufacturerForm = Form(
     mapping(
       "id" -> longNumber(min = 0),
       "description" -> text(minLength = 2, maxLength = 100),
       "link" -> optional(text(maxLength = 100)),
       "expiryDate" -> optional(date)
+    )(Manufacturer.apply)(Manufacturer.unapply)
+  )*/
+
+  val manufacturerForm = Form(
+    mapping(
+      "id" -> longNumber(min = 0),
+      "description" -> text(minLength = 2, maxLength = 100),
+      "link" -> text(maxLength = 100),
+      "expiryDate" -> date
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
@@ -55,7 +67,7 @@ class ManufacturerController extends Controller {
       },
       manufacturer => {
         /* binding success, you get the actual value. */
-        val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
+        val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link, manufacturer.expiryDate)
         val manufacturerCreate = dao.ManufacturerDao.merge(newManufacturer)
         Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
       }
@@ -67,16 +79,17 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber,
       "description" -> nonEmptyText,
-      "link" -> nonEmptyText
+      "link" -> nonEmptyText,
+      "expiryDate" -> date
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
-  def validate(id: Long, description: String, link: String) = {
+  def validate(id: Long, description: String, link: String, expiryDate : Date) = {
     description match {
       case "root" if link == "DBA" =>
-        Some(Manufacturer(id, description, link))
+        Some(Manufacturer(id, description, link,expiryDate))
       case "admin" =>
-        Some(Manufacturer(id, description, link))
+        Some(Manufacturer(id, description, link,expiryDate))
       case _ =>
         None
     }
@@ -86,9 +99,10 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber,
       "description" -> text,
-      "link" -> text
+      "link" -> text,
+      "expiryDate" -> date
     )(Manufacturer.apply)(Manufacturer.unapply) verifying("Failed form constraints!", fields => fields match {
-      case manufacturer => validate(manufacturer.id, manufacturer.description, manufacturer.link).isDefined
+      case manufacturer => validate(manufacturer.id, manufacturer.description, manufacturer.link, manufacturer.expiryDate).isDefined
     })
   )
 
@@ -117,15 +131,15 @@ class ManufacturerController extends Controller {
     /*
         return result;*/
 
-    val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", ""));
+    val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", "", null));
 
     val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }
 
-  def newManufacturer = Action {
-    val manufacturer = Manufacturer(0, "", "");
+  def newRegister = Action {
+    val manufacturer = Manufacturer(0, "", "", null);
 
     val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
@@ -134,7 +148,7 @@ class ManufacturerController extends Controller {
 
   // http://kev009.com/wp/2012/12/reusable-pactivator ui
   // gination-in-play-2/
-  def manufacturerList(page: Int) = Action {
+  def list(page: Int) = Action {
     // TODO pegar da view
     val pageLength = 5
     val count = ManufacturerDao.getCount
@@ -148,14 +162,4 @@ class ManufacturerController extends Controller {
 
 
 
-  def showManufacturerByInitials = Action {
-    var outString = "Manufacturer: "
-
-
-    outString += ManufacturerDao.getByInitials("dba")
-
-    Ok(outString)
-
-    //Ok(views.html.index("4"))
-  }
 }
