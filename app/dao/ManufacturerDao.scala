@@ -91,7 +91,7 @@ SQL("Select name,indepYear from Country")().map { row =>
           """
             SELECT id, description, link, expiry_date
               FROM manufacturer
-             WHERE manufacturer.0id = {id}
+             WHERE manufacturer.id = {id}
           """.stripMargin)
           .on("id" -> id)
           .as(rowMapper singleOpt)

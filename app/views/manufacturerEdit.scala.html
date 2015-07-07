@@ -23,6 +23,16 @@
                 '_class -> "span4",
                 'placeholder -> Messages.get("form.manufacturer.link"))
 
+
+            <!-- http://stackoverflow.com/questions/13671602/play-framework-inputdate-form
+            search by: play framework form date
+
+            inputText(
+            yourForm(fieldNAme),
+            '_label -> "label",
+            'type -> "time"
+            )-->
+
             <a class="btn btn-default" href="@routes.ManufacturerController.list(1)" role="button">@Messages.get("menu.list")</a>
             <input type="submit" class="btn btn-primary" value='@Messages.get("form.save")' />
         </fieldset>

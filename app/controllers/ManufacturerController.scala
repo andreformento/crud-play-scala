@@ -12,16 +12,6 @@ import java.util.Date
 
 class ManufacturerController extends Controller {
 
-  /*
-  val manufacturerForm = Form(
-    mapping(
-      "id" -> longNumber(min = 0),
-      "description" -> text(minLength = 2, maxLength = 100),
-      "link" -> optional(text(maxLength = 100)),
-      "expiryDate" -> optional(date)
-    )(Manufacturer.apply)(Manufacturer.unapply)
-  )*/
-
   val manufacturerForm = Form(
     mapping(
       "id" -> longNumber(min = 0),
@@ -31,39 +21,11 @@ class ManufacturerController extends Controller {
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
-  /*
-  manufacturerForm.bindFromRequest.fold(
-    formWithErrors => {
-      // TODO melhorar tela de erro
-      // binding failure, you retrieve the form containing errors:
-      //BadRequest(views.html.manufacturer(formWithErrors))
-      BadRequest("erro")
-    },
-    manufacturer => {
-      /* binding success, you get the actual value. */
-      val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
-      val manufacturerCreate = dao.ManufacturerDao.create(newManufacturer)
-      //Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
-      Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
-    }
-  )*/
-
-
   def save = Action { implicit request =>
     manufacturerForm.bindFromRequest.fold(
       formWithErrors => {
         // TODO melhorar tela de erro
-        // binding failure, you retrieve the form containing errors:
-        //BadRequest(views.html.manufacturer(formWithErrors))
-
-        /*Redirect(routes.ManufacturerController.newManufacturer()).flashing(Flash(formWithErrors.data) +
-          ("error" -> Messages("form.validation.error")))*/
-
         BadRequest(views.html.manufacturerEdit(formWithErrors))
-
-        //BadRequest(routes.ManufacturerController.edit(formWithErrors))
-        //BadRequest("erro: "+formWithErrors.globalError)
-        //BadRequest(views.html.index(formWithErrors))
       },
       manufacturer => {
         /* binding success, you get the actual value. */
@@ -75,15 +37,8 @@ class ManufacturerController extends Controller {
   }
 
 
-  def validate(id: Long, description: String, link: Option[String], expiryDate : Option[Date]) = {
-    description match {
-      case "root" if link == "DBA" =>
-        Some(Manufacturer(id, description, link,expiryDate))
-      case "admin" =>
-        Some(Manufacturer(id, description, link,expiryDate))
-      case _ =>
-        None
-    }
+  def validate(id: Long, description: String, link: Option[String], expiryDate: Option[Date]) = {
+    Some(Manufacturer(id, description, link, expiryDate))
   }
 
   val manufacturerFormConstraintsAdHoc = Form(
@@ -97,48 +52,28 @@ class ManufacturerController extends Controller {
     })
   )
 
-  /*
-  val manufacturerPost = Action(parse.form(manufacturerForm)) { implicit request =>
-    val manufacturer = request.body
-    val newManufacturer = model.Manufacturer(manufacturer.id, manufacturer.description, manufacturer.link)
-    val manufacturerCreate = ManufacturerDao.create(newManufacturer)
-    //Redirect(routes.Application.home(id))
-    Redirect(routes.ManufacturerController.edit(manufacturerCreate.id))
-  }*/
 
   def edit(id: Long) = Action {
     val manufacturerBanco = ManufacturerDao.getById(id);
 
-    /*
-    val result = manufacturerBanco match {
-      //case Some(u) => Ok(views.html.manufacturerEdit(manufacturerForm.bind(Map("id" -> u.id.toString, "description" -> u.description, "link" -> u.link))))
-      case Some(u) => {
-        val manufacturerData1 = Map("id" -> u.id.toString, "description" -> u.description, "link" -> u.link)
-        Ok(manufacturerForm.bind(manufacturerData1))
-      }
-      case _ => newManufacturer()
-    }*/
-
-    /*
-        return result;*/
-
     val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", None, None));
 
-    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
+    val manufacturerData = Map("id" -> manufacturer.id.toString,
+      "description" -> manufacturer.description,
+      "link" -> manufacturer.link.getOrElse(""),
+      "expiryDate" -> manufacturer.expiryDate.getOrElse(new Date()))
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }
 
   def newRegister = Action {
-    val manufacturer = Manufacturer(0, "", None,None);
+    val manufacturer = Manufacturer(0, "", None, None);
 
-    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
+    val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link.getOrElse(""))
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }
 
-  // http://kev009.com/wp/2012/12/reusable-pactivator ui
-  // gination-in-play-2/
   def list(page: Int) = Action {
     // TODO pegar da view
     val pageLength = 5
@@ -150,7 +85,5 @@ class ManufacturerController extends Controller {
 
     Ok(views.html.manufacturerList(manufacturerByPagination, count, page, pageLength))
   }
-
-
 
 }
