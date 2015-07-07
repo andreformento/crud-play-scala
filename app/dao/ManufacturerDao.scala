@@ -6,7 +6,9 @@ import model.Manufacturer
 import play.api.Play.current
 import play.api.db.DB
 
+import java.util.Date
 
+// http://manuel.bernhardt.io/2014/02/04/a-quick-tour-of-relational-database-access-with-scala/
 
 object ManufacturerDao {
 
@@ -64,10 +66,10 @@ SQL("Select name,indepYear from Country")().map { row =>
   * */
 
   def rowMapper = {
-    long("id") ~
-      str("description") ~
-      str("link") ~
-      date("expiry_date") map {
+    get[Long]("id") ~
+      get[String]("description") ~
+      get[Option[String]]("link") ~
+      get[Option[Date]]("expiry_date") map {
       case id ~ description ~ link ~ expiryDate => Manufacturer(id, description, link, expiryDate)
     }
   }
@@ -92,7 +94,7 @@ SQL("Select name,indepYear from Country")().map { row =>
              WHERE manufacturer.0id = {id}
           """.stripMargin)
           .on("id" -> id)
-          .as(ManufacturerDao.rowMapper singleOpt)
+          .as(rowMapper singleOpt)
     }
   }
 
@@ -106,7 +108,7 @@ SQL("Select name,indepYear from Country")().map { row =>
              WHERE manufacturer.link = {link}
           """.stripMargin)
           .on("link" -> link)
-          .as(ManufacturerDao.rowMapper *)
+          .as(rowMapper *)
     }
   }
 
@@ -122,7 +124,7 @@ SQL("Select name,indepYear from Country")().map { row =>
           """.stripMargin)
           .on("offset" -> offset,
             "rowCount" -> rowCount)
-          .as(ManufacturerDao.rowMapper *)
+          .as(rowMapper *)
     }
   }
 

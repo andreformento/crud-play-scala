@@ -26,8 +26,8 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber(min = 0),
       "description" -> text(minLength = 2, maxLength = 100),
-      "link" -> text(maxLength = 100),
-      "expiryDate" -> date
+      "link" -> optional(text(maxLength = 100)),
+      "expiryDate" -> optional(date)
     )(Manufacturer.apply)(Manufacturer.unapply)
   )
 
@@ -75,16 +75,7 @@ class ManufacturerController extends Controller {
   }
 
 
-  val manufacturerFormConstraints2 = Form(
-    mapping(
-      "id" -> longNumber,
-      "description" -> nonEmptyText,
-      "link" -> nonEmptyText,
-      "expiryDate" -> date
-    )(Manufacturer.apply)(Manufacturer.unapply)
-  )
-
-  def validate(id: Long, description: String, link: String, expiryDate : Date) = {
+  def validate(id: Long, description: String, link: Option[String], expiryDate : Option[Date]) = {
     description match {
       case "root" if link == "DBA" =>
         Some(Manufacturer(id, description, link,expiryDate))
@@ -99,8 +90,8 @@ class ManufacturerController extends Controller {
     mapping(
       "id" -> longNumber,
       "description" -> text,
-      "link" -> text,
-      "expiryDate" -> date
+      "link" -> optional(text),
+      "expiryDate" -> optional(date)
     )(Manufacturer.apply)(Manufacturer.unapply) verifying("Failed form constraints!", fields => fields match {
       case manufacturer => validate(manufacturer.id, manufacturer.description, manufacturer.link, manufacturer.expiryDate).isDefined
     })
@@ -131,7 +122,7 @@ class ManufacturerController extends Controller {
     /*
         return result;*/
 
-    val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", "", null));
+    val manufacturer = manufacturerBanco.getOrElse(Manufacturer(0, "", None, None));
 
     val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
@@ -139,7 +130,7 @@ class ManufacturerController extends Controller {
   }
 
   def newRegister = Action {
-    val manufacturer = Manufacturer(0, "", "", null);
+    val manufacturer = Manufacturer(0, "", None,None);
 
     val manufacturerData = Map("id" -> manufacturer.id.toString, "description" -> manufacturer.description, "link" -> manufacturer.link)
 
