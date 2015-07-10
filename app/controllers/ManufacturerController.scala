@@ -61,7 +61,10 @@ class ManufacturerController extends Controller {
     val manufacturerData = Map("id" -> manufacturer.id.toString,
       "description" -> manufacturer.description,
       "link" -> manufacturer.link.getOrElse(""),
-      "expiryDate" -> manufacturer.expiryDate.getOrElse(new Date()))
+      //"expiryDate" -> manufacturer.expiryDate.getOrElse(new Date())
+      //"expiryDate" -> of[Date]
+      "expiryDate" -> jodaDate("yyyy-MM-dd")
+    )
 
     Ok(views.html.manufacturerEdit(manufacturerForm.bind(manufacturerData)))
   }
